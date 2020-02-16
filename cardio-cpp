@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,22 +7,22 @@ using namespace std;
 
 string folder_input = "C://Users//Dmitry//Desktop//Cardio//rebuild//Petrova.txt";   //no spaces in folder names!
 string folder_output = "C://Users//Dmitry//Desktop//Cardio//rebuild//output.txt";
-double MASS_msr[196123];  
 
-int makeMass(double mass[196123]) //input in file
+
+int makeMass(int rc, float* mass) //input in file
 { 
 	setlocale(LC_ALL, "Russian");
 	ofstream f;
 
 	f.open(folder_output);   //no spaces in folder names!
-	for (int i = 0; i < 196123; i++) 
+	for (int i = 0; i < rc; i++)
 	{
-		f << MASS_msr[i] << endl;
+		f << mass[i] << endl;
 	}
 	return 0;
 }
 
-int takeMass(int rc) //output from file
+void takeMass(int rc, float *mass) //output from file
 { 
 	setlocale(LC_ALL, "Russian");
 	ifstream f;
@@ -31,10 +30,9 @@ int takeMass(int rc) //output from file
 	f.open(folder_input);   
 	for (int i = 0; i < rc; i++)
 	{
-		f >> MASS_msr[i];
+		f >> mass[i];
 		//cout << "element[" << i << "]:" << MASS_msr[i] << endl;
 	}
-	return 0;
 }
 
 int getRowsCount(string st) //возвращает число строк в txt файле
@@ -52,7 +50,7 @@ int getRowsCount(string st) //возвращает число строк в txt 
 	delete str;
 	return i;
 }
-//при сохраненнии файла из экселя через "сохранить как - *.txt" он создает 1 пустую строку в конце со значением нуль. 
+//при сохраненнии файла из экселя через "сохранить как - *.txt" он создает 1 пустую строку в конце. 
 //чтобы этого не было надо в *.txt файле удалить последнюю строку
 
 
@@ -63,9 +61,10 @@ int main()
 	
 	int RowsCount = getRowsCount(folder_input);
 	cout << "RowsCount:\n" << RowsCount << endl;
-	takeMass(RowsCount);
-	makeMass(MASS_msr);
-	cout << "mas:\n" << MASS_msr[196122] << endl;
+	float* mass_masr = new float[RowsCount];
+	takeMass(RowsCount, mass_masr);
+	makeMass(RowsCount, mass_masr);
+	cout << "mas:\n" << mass_masr[RowsCount -1] << endl;
 	system("pause");
 	return 0;
 }
