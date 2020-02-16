@@ -6,15 +6,29 @@
 using namespace std;
 
 
-string folder = "C://Users//Dmitry//Desktop//Cardio//rebuild//Petrova.txt";
-double MASS_msr[196123];
+string folder_input = "C://Users//Dmitry//Desktop//Cardio//rebuild//Petrova.txt";   //no spaces in folder names!
+string folder_output = "C://Users//Dmitry//Desktop//Cardio//rebuild//output.txt";
+double MASS_msr[196123];  
+
+int makeMass(double mass[196123]) //input in file
+{ 
+	setlocale(LC_ALL, "Russian");
+	ofstream f;
+
+	f.open(folder_output);   //no spaces in folder names!
+	for (int i = 0; i < 196123; i++) 
+	{
+		f << MASS_msr[i] << endl;
+	}
+	return 0;
+}
 
 int takeMass(int rc) //output from file
 { 
 	setlocale(LC_ALL, "Russian");
 	ifstream f;
 
-	f.open(folder);   //no spaces in folder names!
+	f.open(folder_input);   
 	for (int i = 0; i < rc; i++)
 	{
 		f >> MASS_msr[i];
@@ -44,12 +58,13 @@ int getRowsCount(string st) //возвращает число строк в txt 
 
 int main()
 {
+
 	setlocale(LC_ALL, "Russian");
-	int RowsCount = getRowsCount(folder);
+	
+	int RowsCount = getRowsCount(folder_input);
 	cout << "RowsCount:\n" << RowsCount << endl;
 	takeMass(RowsCount);
-	//int indexmy;  while (true) { cin >> indexmy; cout<< "mas:\n" << MASS_msr[indexmy] << endl; }   //строка для проверки
-
+	makeMass(MASS_msr);
 	cout << "mas:\n" << MASS_msr[196122] << endl;
 	system("pause");
 	return 0;
